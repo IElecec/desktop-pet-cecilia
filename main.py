@@ -22,6 +22,8 @@ def main():
     # 启动桌宠
     pet_agent.start()
     
+    tray_icon.toggle_pet()
+    
     sys.exit(app.exec_())
 
 if __name__ == "__main__":
