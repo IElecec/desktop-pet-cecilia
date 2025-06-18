@@ -36,8 +36,10 @@ class TrayIcon(QSystemTrayIcon):
     def toggle_pet(self):
         """切换桌宠显示状态"""
         if self.pet_window.isVisible():
+            print("hide")
             self.pet_window.hide()
         else:
+            print("show")
             self.pet_window.show()
     
     def feed_pet(self):

@@ -1,15 +1,19 @@
 import os
 import configparser
 from pathlib import Path
+from src.core import PetState
+
 
 def load_animation(state):
     """加载指定状态的动画序列"""
+    print(state)
     animation_dir = Path("assets/animations")
+
     state_dirs = {
-        "idle": "idle",
-        "walking": "walk",
-        "sleeping": "sleep",
-        "eating": "eat",
+        PetState.IDLE: "idle",
+        PetState.WALKING: "walk",
+        PetState.SLEEPING: "sleep",
+        PetState.EATING: "eat",
     }
     
     if state not in state_dirs:
@@ -24,7 +28,6 @@ def load_animation(state):
         [str(f) for f in state_dir.iterdir() if f.is_file() and f.suffix in [".png", ".gif"]],
         key=lambda x: os.path.basename(x)
     )
-    
     return frames
 
 def load_config():

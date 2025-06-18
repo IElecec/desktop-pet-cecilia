@@ -39,7 +39,7 @@ class PetWindow(QWidget):
         # 更新动画的定时器
         self.animation_timer = QTimer(self)
         self.animation_timer.timeout.connect(self.update_animation_frame)
-        self.animation_timer.start(100)  # 每100ms更新一帧
+        self.animation_timer.start(20)  # 每100ms更新一帧
         
     def setup_connections(self):
         # 连接状态改变信号
