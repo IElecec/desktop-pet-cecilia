@@ -14,6 +14,7 @@ def load_animation(state):
         PetState.WALKING: "walk",
         PetState.SLEEPING: "sleep",
         PetState.EATING: "eat",
+        PetState.FALL_ASLEEP: "fall_asleep",
     }
     
     if state not in state_dirs:
