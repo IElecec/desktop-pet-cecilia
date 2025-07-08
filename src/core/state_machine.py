@@ -6,7 +6,7 @@ class PetState(Enum):
     WALKING = 1
     SLEEPING = 2
     EATING = 3
-    TALK = 4
+    TALKING = 4
 
     #PetTransientState
     FALL_ASLEEP = 10
@@ -28,6 +28,12 @@ class StateMachine(QObject):
 
     def is_transient(self):
         return self.current_state == PetState.FALL_ASLEEP
+    
+    def is_talk(self):
+        return self.current_state == PetState.TALKING
+    
+    def is_walk(self):
+        return self.current_state == PetState.WALKING
     
     def end_transient(self):
         if self.current_state == PetState.FALL_ASLEEP:

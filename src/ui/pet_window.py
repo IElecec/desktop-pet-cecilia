@@ -3,6 +3,7 @@ from PyQt5.QtCore import Qt, QPoint, QTimer, pyqtSignal
 from PyQt5.QtGui import QMovie, QPixmap, QPainter, QColor, QMouseEvent
 from src.core import PetState
 from src.utils import load_animation
+from .dialog_window import FramelessDialog
 import pyautogui
 
 class PetWindow(QWidget):
@@ -11,7 +12,10 @@ class PetWindow(QWidget):
     def __init__(self, pet_agent):
         super().__init__()
         self.pet_agent = pet_agent
+        
         self.drag_position = QPoint()
+
+        self.dialog = FramelessDialog(pet_agent)
         
         self.init_menu()
 
@@ -123,12 +127,12 @@ class PetWindow(QWidget):
         """根据Pet的位置修改window的位置"""
         self.move(new_pos_x,new_pos_y)
         self.position_changed.emit(new_pos_x, new_pos_y)
-
     
     def mousePressEvent(self, event: QMouseEvent):
         """鼠标按下事件，开始拖拽"""
         if event.button() == Qt.LeftButton:
-            self.pet_agent.idle()
+            if self.pet_agent.state_machine.is_walk():
+                self.pet_agent.idle()
             self.drag_position = event.globalPos() - self.frameGeometry().topLeft()
             event.accept()
     
@@ -137,6 +141,9 @@ class PetWindow(QWidget):
         if event.buttons() == Qt.LeftButton:
             new_pos = event.globalPos() - self.drag_position
             self.move(new_pos)
+            
+            self.dialog.move_to(new_pos.x(), new_pos.y())
+
             self.pet_agent.move_to(new_pos.x(), new_pos.y())
             self.position_changed.emit(new_pos.x(), new_pos.y())
             event.accept()
@@ -150,9 +157,14 @@ class PetWindow(QWidget):
         if self.isVisible():
             print("hide")
             self.hide()
+            if self.pet_agent.state_machine.is_talk():
+                self.dialog.do_hide()
         else:
             print("show")
             self.show()
+            print(self.pet_agent.state_machine.current_state)
+            if self.pet_agent.state_machine.is_talk():
+                self.dialog.do_show()
     
     def feed_pet(self):
         """喂食桌宠"""
@@ -173,4 +185,5 @@ class PetWindow(QWidget):
     def talk_pet(self):
         """桌宠对话"""
         self.pet_agent.talk()
+        self.dialog.show()
     

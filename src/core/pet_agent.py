@@ -2,6 +2,7 @@ import time
 import random
 from PyQt5.QtCore import QObject, QTimer, pyqtSignal
 from .state_machine import PetState, StateMachine
+from .dialog_agent import DialogAgent
 import pyautogui
 
 class PetAgent(QObject):
@@ -9,7 +10,7 @@ class PetAgent(QObject):
     def __init__(self):
         super().__init__()
         self.state_machine = StateMachine()
-        
+        self.dialog_agent = DialogAgent()
 
         self.screen_width, self.screen_height = pyautogui.size()
         self.position_x = self.screen_width//2
@@ -46,10 +47,12 @@ class PetAgent(QObject):
         self.state_machine.set_state(PetState.WALKING)
 
     def talk(self):
-        self.state_machine.set_state(PetState.TALK)
+        self.state_machine.set_state(PetState.TALKING)
     
     def move_to(self, x, y):
         """移动桌宠到指定位置"""
         self.position_x = x
         self.position_y = y
 
+    def answer(self,message):
+        self.dialog_agent.answer(message)
