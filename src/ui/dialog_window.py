@@ -157,7 +157,6 @@ class FramelessDialog(QWidget):
         self.hide()
         # 在实际应用中，你可以在这里处理发送逻辑
         self.pet_agent.answer(text)
-        self.show()
         
     # def mousePressEvent(self, event):
     #     # 实现窗口拖动
@@ -189,6 +188,7 @@ class FramelessDialog(QWidget):
     def update_answer(self,message):
         self.answer_window.show()
         self.answer_window.set_text(message)
+        self.show()
 
     def do_hide(self):
         self.hide()
