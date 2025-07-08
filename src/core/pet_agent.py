@@ -44,6 +44,9 @@ class PetAgent(QObject):
 
     def walk(self):
         self.state_machine.set_state(PetState.WALKING)
+
+    def talk(self):
+        self.state_machine.set_state(PetState.TALK)
     
     def move_to(self, x, y):
         """移动桌宠到指定位置"""

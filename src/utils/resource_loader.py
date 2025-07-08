@@ -14,6 +14,7 @@ def load_animation(state):
         PetState.WALKING: "walk",
         PetState.SLEEPING: "sleep",
         PetState.EATING: "eat",
+        PetState.TALK:"talk",
         PetState.FALL_ASLEEP: "fall_asleep",
     }
     

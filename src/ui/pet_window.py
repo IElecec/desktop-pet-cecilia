@@ -42,6 +42,11 @@ class PetWindow(QWidget):
         self.walk_action.triggered.connect(self.walk_pet)
         self.menu.addAction(self.walk_action)
 
+        # 对话
+        self.talk_action = QAction("对话", self)
+        self.talk_action.triggered.connect(self.talk_pet)
+        self.menu.addAction(self.talk_action)
+
         # 添加分隔线
         self.menu.addSeparator() 
 
@@ -164,4 +169,8 @@ class PetWindow(QWidget):
     def walk_pet(self):
         """桌宠走路"""
         self.pet_agent.walk()
+
+    def talk_pet(self):
+        """桌宠对话"""
+        self.pet_agent.talk()
     

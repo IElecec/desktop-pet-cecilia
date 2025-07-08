@@ -6,9 +6,10 @@ class PetState(Enum):
     WALKING = 1
     SLEEPING = 2
     EATING = 3
+    TALK = 4
 
     #PetTransientState
-    FALL_ASLEEP = 4
+    FALL_ASLEEP = 10
 
 class StateMachine(QObject):
     state_changed = pyqtSignal(PetState)  # 状态改变信号
