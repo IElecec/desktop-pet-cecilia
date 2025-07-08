@@ -36,13 +36,14 @@ class AnswerDisplay(QLabel):
         self.setStyleSheet(f"color: rgba({self.color.red()}, {self.color.green()}, {self.color.blue()}, 255);")
         
         # 设置窗口大小和位置
-        self.resize(800, 100)
         screen_width, screen_height = pyautogui.size()
-        self.setGeometry(screen_width//2, screen_height//2-50, 300, 40)
+        self.setGeometry(screen_width//2-250, screen_height//2-50, 150, 40)
         
         # 打字效果定时器
         self.timer = QTimer(self)
         self.timer.timeout.connect(self.type_next_character)
+
+        self.setWordWrap(True)
     
     def set_text(self, text):
         """设置要显示的完整文本"""
@@ -153,9 +154,10 @@ class FramelessDialog(QWidget):
         
         # 这里不显示发送的信息，只清空输入框
         self.input_box.clear()
-        
+        self.hide()
         # 在实际应用中，你可以在这里处理发送逻辑
         self.pet_agent.answer(text)
+        self.show()
         
     # def mousePressEvent(self, event):
     #     # 实现窗口拖动
@@ -175,7 +177,7 @@ class FramelessDialog(QWidget):
 
     def move_to(self,new_pos_x,new_pos_y):
         self.move(new_pos_x-40,new_pos_y+200)
-        self.answer_window.move(new_pos_x,new_pos_y-50)
+        self.answer_window.move(new_pos_x-250,new_pos_y-50)
 
     def update_state(self):
         if self.state == DialogState.SILENT:
