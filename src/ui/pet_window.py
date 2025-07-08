@@ -185,5 +185,4 @@ class PetWindow(QWidget):
     def talk_pet(self):
         """桌宠对话"""
         self.pet_agent.talk()
-        self.dialog.do_show()
     

@@ -177,8 +177,9 @@ class FramelessDialog(QWidget):
 
     def update_state(self,new_state):
         if new_state != PetState.TALKING:
-            self.hide()
-            self.answer_window.hide()
+            self.do_hide()
+        else:
+            self.do_show()
 
     def move_to(self,new_pos_x,new_pos_y):
         self.move(new_pos_x-40,new_pos_y+200)
@@ -186,8 +187,7 @@ class FramelessDialog(QWidget):
 
     def update_answer(self,message):
         if self.state == DialogState.SHOW:
-            self.answer_window.show()
-            self.show()
+            self.do_show()
         self.answer_window.set_text(message)
         
 
