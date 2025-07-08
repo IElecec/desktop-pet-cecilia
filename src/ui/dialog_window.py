@@ -5,10 +5,11 @@ from PyQt5.QtCore import Qt,pyqtSignal,QTimer
 from PyQt5.QtGui import QFont, QColor, QPainter
 import pyautogui
 from enum import Enum
+from src.core import PetState
 
 class DialogState(Enum):
-    SILENT = 0
-    TALKING = 1
+    HIDE = 0
+    SHOW = 1
 
 class AnswerDisplay(QLabel):
     def __init__(self):
@@ -31,7 +32,7 @@ class AnswerDisplay(QLabel):
         
         # 设置默认样式
         self.font = QFont("Arial", 10)
-        self.color = QColor(255, 255, 255)  # 默认白色
+        self.color = QColor(207, 216, 165)  # 默认白色
         self.setFont(self.font)
         self.setStyleSheet(f"color: rgba({self.color.red()}, {self.color.green()}, {self.color.blue()}, 255);")
         
@@ -87,7 +88,7 @@ class FramelessDialog(QWidget):
 
         self.answer_window = AnswerDisplay()
 
-        self.state = DialogState.SILENT
+        self.state = DialogState.SHOW
         
         # 设置无边框窗口
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
@@ -174,26 +175,28 @@ class FramelessDialog(QWidget):
         """根据Pet的位置修改window的位置"""
         self.move_to(new_pos_x,new_pos_y)
 
+    def update_state(self,new_state):
+        if new_state != PetState.TALKING:
+            self.hide()
+            self.answer_window.hide()
+
     def move_to(self,new_pos_x,new_pos_y):
         self.move(new_pos_x-40,new_pos_y+200)
         self.answer_window.move(new_pos_x-250,new_pos_y-50)
 
-    def update_state(self):
-        if self.state == DialogState.SILENT:
-            self.state = DialogState.TALKING
-        else:
-            self.state = DialogState.SILENT
-            self.do_hide()
-
     def update_answer(self,message):
-        self.answer_window.show()
+        if self.state == DialogState.SHOW:
+            self.answer_window.show()
+            self.show()
         self.answer_window.set_text(message)
-        self.show()
+        
 
     def do_hide(self):
         self.hide()
         self.answer_window.hide()
+        self.state = DialogState.HIDE
 
     def do_show(self):
         self.show()
         self.answer_window.show()
+        self.state = DialogState.SHOW
